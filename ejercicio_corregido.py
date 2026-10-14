@@ -32,6 +32,7 @@ relacionarla con la tabla de vulnerabilidades del informe.
 import getpass
 import logging
 import re
+import secrets
 import time
 
 import bcrypt  # Librería externa oficial de PyPI
@@ -62,7 +63,8 @@ intentos_fallidos = {}
 
 # Hash de mentira: se usa cuando el usuario no existe, para que el login
 # tarde lo mismo exista o no el usuario [C3].
-HASH_FALSO = bcrypt.hashpw(b"clave-falsa-123", bcrypt.gensalt())
+# La clave de mentira se genera al azar (no hay texto fijo en el código).
+HASH_FALSO = bcrypt.hashpw(secrets.token_hex(16).encode("utf-8"), bcrypt.gensalt())
 
 
 # ----------------------------------------------------------------------
@@ -551,4 +553,3 @@ def main():
 # [C15] El programa solo arranca si se ejecuta este archivo directamente
 if __name__ == "__main__":
     main()
-    
